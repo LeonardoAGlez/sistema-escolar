@@ -1,0 +1,134 @@
+# ==========================================
+# Python & Django Backend
+# ==========================================
+
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+*.log
+
+# Django
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+/staticfiles
+/media
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Django Migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Virtual Environment
+env/
+venv/
+ENV/
+.venv/
+
+# MySQL Config
+my.cnf.local
+*.cnf.local
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Upload Data
+/uploadData
+
+# ==========================================
+# Angular & Node Frontend
+# ==========================================
+
+# Node & NPM
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Angular Compiled Output
+/dev-sistema-escolar-web/dist
+/dev-sistema-escolar-web/tmp
+/dev-sistema-escolar-web/out-tsc
+/dev-sistema-escolar-web/bazel-out
+
+# Angular Cache
+.angular/
+.sass-cache/
+
+# Angular Testing
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# ==========================================
+# IDEs and Editors
+# ==========================================
+
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# ==========================================
+# System Files
+# ==========================================
+
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Logs & Temporary Files
+# ==========================================
+
+*.log
+logs/
+*.tmp
+*.temp
+/tmp
+/connect.lock
+
+# ==========================================
+# Build & Compiled Files
+# ==========================================
+
+*.class
+*.jar
+*.war
+*.exe
+*.app
+target/
+
+# ==========================================
+# Large Media Files
+# ==========================================
+
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
