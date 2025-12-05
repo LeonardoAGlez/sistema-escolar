@@ -127,15 +127,29 @@ mat-form-field{
   font-size: 12px;
 }
 
-// Estilos para el timepicker
-.timepicker-icon {
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.54);
 
-  &:hover {
-    color: #0092B8;
-  }
+/* Change clock face background */
+::ng-deep ngx-material-timepicker-content .timepicker__header {
+  background-color: #1f395c !important; /* Header background */
+  color: white !important; /* Header text */
 }
+
+/* Change clock face numbers */
+::ng-deep ngx-material-timepicker-content .clock-face__number {
+  color: #1f395c !important;
+}
+
+/* Change selected number */
+::ng-deep ngx-material-timepicker-content .clock-face__number--selected {
+  background-color: #ff4081 !important;
+  color: white !important;
+}
+
+/* Change OK / Cancel buttons */
+::ng-deep ngx-material-timepicker-content .timepicker-button {
+  color: #ff4040 !important;
+}
+
 
 /* =========================
    Ajustes para dispositivos móviles

@@ -47,7 +47,7 @@
   min-height: 1px;
   margin: 0 auto;
   background: #fff;
-  border-radius: 12px;
+
   box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
 }
 
@@ -84,8 +84,6 @@
 
 /* Botón de registrar nuevo evento */
 .btn-registrar {
-  background-color: #0092B8 !important;
-  color: white !important;
   font-family: Nexa-Bold;
   font-size: 16px;
   padding: 0.5rem 1.5rem;
@@ -93,14 +91,9 @@
 }
 
 .btn-registrar:hover {
-  background-color: #017895 !important;
-}
-
-/* Filtro de búsqueda */
-mat-form-field {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  background-color: #1f395c!important;
+  color: white !important;
+  transition: 0.2s all ease-in-out;
 }
 
 /* Scroll horizontal SOLO para la tabla */
@@ -110,7 +103,7 @@ mat-form-field {
   min-height: 1px;
   margin: 0 auto;
   background: var(--table-bg, #fff);
-  border-radius: 12px;
+
   box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;

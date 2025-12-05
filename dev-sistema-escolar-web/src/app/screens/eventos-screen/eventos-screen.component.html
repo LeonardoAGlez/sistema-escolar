@@ -20,8 +20,8 @@
         </div>
 
         <!-- Botón para registrar nuevo evento (solo admins) -->
-        <div class="col-12 mb-3" *ngIf="canCreate()">
-          <button mat-raised-button color="primary" class="btn-registrar" (click)="goRegistrar()">
+        <div class="col-12 mb-3 text-end" *ngIf="canCreate()">
+          <button mat-raised-button class="btn-registrar" (click)="goRegistrar()">
             <mat-icon>add</mat-icon>
             Registrar Nuevo Evento
           </button>
@@ -31,7 +31,7 @@
         <div class="col-12 mb-3">
           <mat-form-field appearance="outline" style="width: 100%;">
             <mat-label>Buscar evento</mat-label>
-            <input matInput (keyup)="filtrar($event)" placeholder="Escribe para buscar por nombre, tipo, lugar..." #input>
+            <input matInput (keyup)="filtrar($event)" placeholder="Escribe para buscar por nombre..." #input>
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>

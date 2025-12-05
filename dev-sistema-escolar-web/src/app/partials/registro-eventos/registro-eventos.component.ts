@@ -338,6 +338,17 @@ export class RegistroEventosComponent implements OnInit {
       event.preventDefault();
     }
   }
+  public soloAlfanumericoYPuntuacion(event: KeyboardEvent): void {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s\.,;:!?\u00BF\u00A1\-_'"()\/]$/;
+    if (!regex.test(event.key) &&
+        event.key !== 'Backspace' &&
+        event.key !== 'Delete' &&
+        event.key !== 'ArrowLeft' &&
+        event.key !== 'ArrowRight' &&
+        event.key !== 'Tab') {
+      event.preventDefault();
+    }
+  }
 
   // Función para permitir solo números
   public soloNumeros(event: KeyboardEvent): void {

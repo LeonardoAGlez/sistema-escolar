@@ -5,7 +5,7 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "dist/app-movil-escolar-webapp"
+        "outputDirectory": "dist/dev-sistema-escolar-webapp"
       }
     }
   ],

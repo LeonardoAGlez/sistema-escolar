@@ -2,122 +2,141 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import { AdministradoresService } from 'src/app/services/administradores.service';
-import { EventosService } from 'src/app/services/eventos.service';
 import { FacadeService } from 'src/app/services/facade.service';
 
 @Component({
   selector: 'app-graficas-screen',
   templateUrl: './graficas-screen.component.html',
-  styleUrls: ['./graficas-screen.component.scss']
+  styleUrls: ['./graficas-screen.component.scss'],
 })
-export class GraficasScreenComponent implements OnInit{
-
+export class GraficasScreenComponent implements OnInit {
   //Variables
   public total_user: any = {};
-  public estadisticas_eventos: any = {};
-  public rol: string = "";
-  public token: string = "";
+  public rol: string = '';
+  public token: string = '';
+
+  private readonly roleLabels = ['Administradores', 'Maestros', 'Alumnos'];
+  private readonly roleColors = ['#1f395c', '#2b5082', '#447fce'];
 
   //Barras
   barChartData = {
-    labels: [] as string[],
+    labels: this.roleLabels,
     datasets: [
       {
         data: [] as number[],
-        label: 'Eventos por Tipo',
-        backgroundColor: [
-          '#F88406',
-          '#FCFF44',
-          '#82D3FB',
-          '#FB82F5',
-          '#2AD84A'
-        ]
-      }
-    ]
-  }
+        label: 'Usuarios por rol',
+        backgroundColor: this.roleColors,
+      },
+    ],
+  };
   barChartOption: any = {
-    responsive: false,
+    responsive: true,
     scales: {
       y: {
         ticks: {
           stepSize: 1,
-          precision: 0
+          precision: 0,
         },
-        beginAtZero: true
-      }
-    }
-  }
-  barChartPlugins = [ DatalabelsPlugin ];
+        beginAtZero: true,
+      },
+    },
+  };
+  barChartPlugins = [DatalabelsPlugin];
+
+  //Barras horizontales (histograma)
+  barChartDataHorizontal = {
+    labels: this.roleLabels,
+    datasets: [
+      {
+        data: [] as number[],
+        label: 'Usuarios por rol (histograma)',
+        backgroundColor: this.roleColors,
+      },
+    ],
+  };
+  barChartOptionHorizontal: any = {
+    responsive: true,
+    indexAxis: 'y',
+    scales: {
+      x: {
+        ticks: {
+          stepSize: 1,
+          precision: 0,
+        },
+        beginAtZero: true,
+      },
+    },
+  };
+  barChartPluginsHorizontal = [DatalabelsPlugin];
 
   //Circular
   pieChartData = {
-    labels: ["Administradores", "Maestros", "Alumnos"],
+    labels: this.roleLabels,
     datasets: [
       {
-        data:[0, 0, 0],
+        data: [0, 0, 0],
         label: 'Registro de usuarios',
-        backgroundColor: [
-          '#FCFF44',
-          '#F1C8F2',
-          '#31E731'
-        ]
-      }
-    ]
-  }
+        backgroundColor: this.roleColors,
+      },
+    ],
+  };
   pieChartOption = {
-    responsive:false
-  }
-  pieChartPlugins = [ DatalabelsPlugin ];
+    responsive: true,
+  };
+  pieChartPlugins = [DatalabelsPlugin];
+
+  //Dona
+  doughnutChartData = {
+    labels: this.roleLabels,
+    datasets: [
+      {
+        data: [0, 0, 0],
+        label: 'Registro de usuarios',
+        backgroundColor: this.roleColors,
+      },
+    ],
+  };
+  doughnutChartOption = {
+    responsive: true,
+  };
+  doughnutChartPlugins = [DatalabelsPlugin];
 
   constructor(
     private administradoresServices: AdministradoresService,
-    private eventosService: EventosService,
     private facadeService: FacadeService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.rol = this.facadeService.getUserGroup();
     this.token = this.facadeService.getSessionToken();
 
     // Validar que haya inicio de sesión
-    if(this.token == ""){
-      this.router.navigate(["/"]);
+    if (this.token == '') {
+      this.router.navigate(['/']);
       return;
     }
 
     // Solo administradores pueden acceder a esta vista
-    if(this.rol !== 'administrador'){
-      alert("No tienes permisos para acceder a las gráficas");
-      this.router.navigate(["/home"]);
+    if (this.rol !== 'administrador') {
+      alert('No tienes permisos para acceder a las gráficas');
+      this.router.navigate(['/home']);
       return;
     }
 
     this.obtenerTotalUsers();
-    this.obtenerEstadisticasEventos();
   }
 
-  public obtenerTotalUsers(){
+  public obtenerTotalUsers() {
     this.administradoresServices.getTotalUsuarios().subscribe(
-      (response)=>{
+      (response) => {
         this.total_user = response;
-        console.log("Total usuarios: ", this.total_user);
+        console.log('Total usuarios: ', this.total_user);
         this.actualizarGraficasUsuarios();
-      }, (error)=>{
-        console.log("Error al obtener total de usuarios ", error);
-        alert("No se pudo obtener el total de cada rol de usuarios");
-      }
-    );
-  }
-
-  public obtenerEstadisticasEventos(){
-    this.eventosService.obtenerEstadisticasEventos().subscribe(
-      (response)=>{
-        this.estadisticas_eventos = response;
-        console.log("Estadísticas eventos: ", this.estadisticas_eventos);
-        this.actualizarGraficasEventos();
-      }, (error)=>{
-        console.log("Error al obtener estadísticas de eventos ", error);
+      },
+      (error) => {
+        console.log('Error al obtener total de usuarios ', error);
+        alert('No se pudo obtener el total de cada rol de usuarios');
       }
     );
   }
@@ -126,50 +145,46 @@ export class GraficasScreenComponent implements OnInit{
     const admins = this.total_user.admins || 0;
     const maestros = this.total_user.maestros || 0;
     const alumnos = this.total_user.alumnos || 0;
+    const data = [admins, maestros, alumnos];
+
+    this.barChartData = {
+      ...this.barChartData,
+      datasets: [
+        {
+          ...this.barChartData.datasets[0],
+          data,
+        },
+      ],
+    };
+
+    this.barChartDataHorizontal = {
+      ...this.barChartDataHorizontal,
+      datasets: [
+        {
+          ...this.barChartDataHorizontal.datasets[0],
+          data,
+        },
+      ],
+    };
 
     this.pieChartData = {
       ...this.pieChartData,
       datasets: [
         {
           ...this.pieChartData.datasets[0],
-          data: [admins, maestros, alumnos]
-        }
-      ]
+          data,
+        },
+      ],
     };
-  }
 
-  private actualizarGraficasEventos(): void {
-    if (this.estadisticas_eventos.por_tipo && this.estadisticas_eventos.por_tipo.length > 0) {
-      const labelsTipo = this.estadisticas_eventos.por_tipo.map((item: any) => item.tipo_evento);
-      const datosTipo = this.estadisticas_eventos.por_tipo.map((item: any) => item.cantidad);
-
-      this.barChartData = {
-        labels: labelsTipo,
-        datasets: [
-          {
-            data: datosTipo,
-            label: 'Eventos por Tipo',
-            backgroundColor: [
-              '#F88406',
-              '#FCFF44',
-              '#82D3FB',
-              '#FB82F5',
-              '#2AD84A'
-            ]
-          }
-        ]
-      };
-    } else {
-      this.barChartData = {
-        labels: ['Sin eventos registrados'],
-        datasets: [
-          {
-            data: [0],
-            label: 'Eventos por Tipo',
-            backgroundColor: ['#CCCCCC']
-          }
-        ]
-      };
-    }
+    this.doughnutChartData = {
+      ...this.doughnutChartData,
+      datasets: [
+        {
+          ...this.doughnutChartData.datasets[0],
+          data,
+        },
+      ],
+    };
   }
 }
